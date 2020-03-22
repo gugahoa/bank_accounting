@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  bank_accounting_web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      PGHOST: bank_accounting_db
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: bank_accounting_dev
+      PGPORT: 5432
+    ports:
+      - 4000:4000
+    depends_on:
+      - bank_accounting_db
+    volumes:
+      - ./:/opt/bank_accounting_dev
+  bank_accounting_db:
+    image: postgres:12
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./run/db/:/var/lib/postgres/data/pgdata
+    restart: always

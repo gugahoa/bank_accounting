@@ -1,7 +1,9 @@
+run/
 _build/
 deps/
 .git/
 .gitignore
 .dockerignore
 Dockerfile
+docker-compose.yml
 README.md
