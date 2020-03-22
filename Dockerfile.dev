@@ -1,0 +1,17 @@
+FROM elixir:latest
+
+RUN apt-get update && apt-get upgrade
+
+RUN apt-get install -y postgresql-client && \
+  mix local.hex --force && \
+  mix local.rebar --force
+
+WORKDIR /opt/bank_accounting_dev
+
+COPY mix.exs /opt/bank_accounting_dev
+
+RUN mix deps.get && mix compile
+
+COPY . /opt/bank_accounting_dev
+
+CMD [ "bash", "-c", "/opt/bank_accounting_dev/entrypoint.sh" ]
