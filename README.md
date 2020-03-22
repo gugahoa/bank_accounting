@@ -1,19 +1,47 @@
-# BankAccounting
+# Bank Accounting
 
-To start your Phoenix server:
+This projects is a demo of a simple bank accounting system, it features the following actions:
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server`
+- Create an account with a initial deposit amount
+- Transfer between accounts
+- Consult account balance
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+To achieve this, the project implements a simple Double Entry Bookkeeping system, that can be expanded upon.
+The design decisions, trade-offs and how to extend the system can be found on the CONTRIBUTING.md file.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+## Getting Started
 
-## Learn more
+These instructions will walk you though on how to run this project locally, for development and testing purposes.
+There's no production deployment instructions, as this project is not for production use, but to give a solid base and understanding of the Double Entry Bookkeeping system.
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+### Prerequisites
+
+To run this project, you can install Elixir, Phoenix and PostgreSQL locally, or use Docker.
+
+### Running without Docker
+
+Elixir has a great [installation guide](https://elixir-lang.org/install.html) that should cover your needs.
+After installing Elixir, follow the [Phoenix installation guide](https://hexdocs.pm/phoenix/installation.html#contenta).
+And finally, install PostgreSQL 12 following this [installation guide](https://wiki.postgresql.org/wiki/Detailed_installation_guides).
+
+Finally, you can run the project. First create the database with the command below. The development config assumes that the user and password for the PostgreSQL is both "postgres".
+If needed, change the user and password at `config/dev.exs`.
+
+```sh
+mix ecto.create
+```
+
+Run the migrations with
+
+```sh
+mix ecto.migrate
+```
+
+With the database created, create the seed data with
+
+```sh
+mix run priv/repo/seeds.exs
+```
+
+This should leave you with a properly cofigured development environment.
+
