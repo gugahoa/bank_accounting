@@ -9,6 +9,17 @@ This projects is a demo of a simple bank accounting system, it features the foll
 To achieve this, the project implements a simple Double Entry Bookkeeping system, that can be expanded upon.
 The design decisions, trade-offs and how to extend the system can be found on the CONTRIBUTING.md file.
 
+## Table of Contents
+
+<!--ts-->
+  * [Bank Accounting](#bank-accounting)
+  * [Table of Contents](#table-of-contents)
+  * [Getting Started](#getting-started)
+    * [Prerequisites](#prerequisites)
+    * [Running without Docker](#running-without-docker)
+    * [Running with Docker](#running-with-docker)
+<!--te-->
+
 ## Getting Started
 
 These instructions will walk you though on how to run this project locally, for development and testing purposes.
