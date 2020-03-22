@@ -7,7 +7,7 @@ This projects is a demo of a simple bank accounting system, it features the foll
 - Consult account balance
 
 To achieve this, the project implements a simple Double Entry Bookkeeping system, that can be expanded upon.
-The design decisions, trade-offs and how to extend the system can be found on the CONTRIBUTING.md file.
+The design decisions, trade-offs and how to extend the system can be found on the [CONTRIBUTING.md](./CONTRIBUTING.md) file.
 
 ## Table of Contents
 
