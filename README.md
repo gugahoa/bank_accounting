@@ -24,8 +24,9 @@ Elixir has a great [installation guide](https://elixir-lang.org/install.html) th
 After installing Elixir, follow the [Phoenix installation guide](https://hexdocs.pm/phoenix/installation.html#contenta).
 And finally, install PostgreSQL 12 following this [installation guide](https://wiki.postgresql.org/wiki/Detailed_installation_guides).
 
-Finally, you can run the project. First create the database with the command below. The development config assumes that the user and password for the PostgreSQL is both "postgres".
-If needed, change the user and password at `config/dev.exs`.
+Finally, you can run the project. First, change the database hostname, user and password at `config/dev.exs` to what you configured during the postgres installation.
+
+After that, create the database with the command below.
 
 ```sh
 mix ecto.create
