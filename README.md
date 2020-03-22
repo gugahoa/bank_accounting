@@ -46,3 +46,18 @@ mix run priv/repo/seeds.exs
 
 This should leave you with a properly cofigured development environment.
 
+
+### Running with Docker
+
+Install Docker via the [official installation guide](https://docs.docker.com/install/)
+Install Docker Compose also via the [official installation guide](https://docs.docker.com/compose/install/)
+
+After that, it should be as simple as running the following command
+
+```sh
+docker-compose up
+```
+
+You will still retaing live reload functionalities using docker because it's mounting your project directory into the container.
+
+> The project image also installs postgresql client, so if you need you can attach to the container and use psql there.
