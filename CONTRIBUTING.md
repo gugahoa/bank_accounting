@@ -11,6 +11,9 @@ When contributing to this project, first read the [Design Decisions](#design-dec
   * [Design Decisions](#design-decisions)
     * [Why Double Entry Bookkeeping](#why-double-entry-bookkeeping)
     * [Database Model](#database-model)
+  * [Trade-offs](#trade-offs)
+    * [Nominal Account vs Personal Account](#nominal-account-vs-personal-account)
+    * [No balance column](#no-balance-column)
 <!--te--> 
 ## Pull Request Process
 
@@ -40,3 +43,20 @@ To properly understand the trade-offs being made here, and the path to the futur
 
 This model is enough to properly represent transactions between accounts, deposits to an account and consulting account balance.
 As the system requirements evolve, you may need to extend this. We'll discuss in [Road to the Future](#road-to-the-future) what requirements would elicit what changes.
+
+## Trade-offs
+
+### Nominal Account vs Personal Account
+
+Having an Accounts table instead of two separate tables, with a type column, would simplify the transactions between Personal Accounts, however, it would likely lead to a rewrite down the road. There are two main reasons why they were separated:
+
+The first reason for separating them is to use the same vocabulary from the domain, inside the software. This will make software engineers and the rest of the company share the same vocabulary.
+
+The second reason is that in the future, Personal Account and Nominal Account could be quite different. With Nominal Account having more internal information, and Personal Account having more information about fees and customer information.
+We talk about personal account fees, other kinds of personal account and revenue in the [Road to the Future](#road-to-the-future) section.
+
+### No balance column
+
+A balance column can lead to inconsistencies, as it's a fact that is derived fro the transactions table. Adding it would mean that we have to program a routine to keep it in sync with the source of truth (Transactions table).
+A better approach, discussed in [Road to the Future](#road-to-the-future) is to create a Personal Account Closed Balance table (same applies for Nominal Accounts) and only update it on every defined time window that makes sense.
+Then the number of rows needed to calculate the balance would be 1 + all transactions from that account on the open period.
