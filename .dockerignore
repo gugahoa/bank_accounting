@@ -7,4 +7,5 @@ deps/
 Dockerfile
 docker-compose.yml
 README.md
+CONTRIBUTING.md
 bank_accounting_model.png
