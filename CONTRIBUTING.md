@@ -127,6 +127,14 @@ Adding a fee could either be a column of Personal Accounts Type (refer to [Add n
 
 This is highly dependent on context, so take some time to properly reason about where it would make more sense to add the fee attribute.
 
+Then to add a fee as revenue, you have to [add new Nominal Account Types](#add-new-nominal-account-types), and create a Nominal Account of type Income.
+
+A transaction that generates a fee could look like this:
+```
+Debit - Client A Checking - $1
+Credit - Bank Fee Revenue - $1
+```
+
 ### Adding new kinds of transactions
 
 Currently all transactions are either deposits or withdrawals, and we reason about them seeing if the transaction is a debit or credit. Credit on a Personal Account is a deposit and debit on a Personal Account is a withdrawal.
