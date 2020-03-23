@@ -12,6 +12,7 @@ When contributing to this project, first read the [Design Decisions](#design-dec
     * [Why Double Entry Bookkeeping](#why-double-entry-bookkeeping)
     * [Database Model](#database-model)
   * [Trade-offs](#trade-offs)
+    * [Why is user information separated from Personal Account?](#why-is-user-information-separated-from-personal-account)
     * [Transaction value as string](#transaction-value-as-string)
     * [Nominal Account vs Personal Account](#nominal-account-vs-personal-account)
     * [No balance column](#no-balance-column)
@@ -52,6 +53,16 @@ This model is enough to properly represent transactions between accounts, deposi
 As the system requirements evolve, you may need to extend this. We'll discuss in [Road to the Future](#road-to-the-future) what requirements would elicit what changes.
 
 ## Trade-offs
+
+### Why is user information separated from Personal Account?
+
+User information could very well live in the Personal Account table.
+I thought of two cases where I wouldn't put User information inside Personal Account:
+
+- There's a separate process from User signup to Personal Account creation. For example, an approval process.
+- A User can have more than one Personal Account.
+
+Since both of these cases seems common enough, I modeled as such.
 
 ### Transaction value as string
 
