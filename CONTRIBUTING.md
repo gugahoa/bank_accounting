@@ -72,12 +72,12 @@ Over the wire, we'll also receive the value as string.
 
 ## Trade-offs
 
-### Why does transfers go through an Asset Nominal Account, instead of a Liability?
+### Why do transfers go through an Asset Nominal Account, instead of a Liability?
 
 If you read the [Transfer between accounts](https://github.com/gugahoa/bank_accounting/wiki/Double-Entry-Bookkeeping#transfer-between-checking-accounts) in the Double Entry Bookkeeping wiki page, you may have wondered why did we choose to move money through an asset account instead of a liability account.
 
-To keep the [Database Model](#database-model) relatively simple, there's two assumptions being made about the types of Personal Account and Nominal Account.
-The model and project is assuming that all Personal Accounts are liabilities, and all Nominal Account are assets.
+To keep the [Database Model](#database-model) relatively simple, two assumptions are being made about the types of Personal Account and Nominal Account.
+The model and project are assuming that all Personal Accounts are liabilities, and all Nominal Account are assets.
 
 If we [add a new Personal Account Type](#adding-a-new-personal-account-type) and [add a new Nominal Account Type](#adding-a-new-nominal-account-type), it would be possible to make the transfer between accounts go through a liability Nominal Account instead of an asset one.
 
@@ -130,7 +130,7 @@ If it comes to this, make sure to also be explicit about what's the [normal bala
 
 ### Add new Nominal Account Types
 
-The approach here is exactly the same as [adding a new Personal Account Type](#add-new-personal-account-types), but for Nominal Accounts.
+The approach here is the same as [adding a new Personal Account Type](#add-new-personal-account-types), but for Nominal Accounts.
 
 ### Adding a fee for certain Personal Accounts
 
