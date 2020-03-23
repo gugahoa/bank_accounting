@@ -107,7 +107,7 @@ We talk about personal account fees, other kinds of personal account and revenue
 
 ### No balance column
 
-A balance column can lead to inconsistencies, as it's a fact that is derived fro the transactions table. Adding it would mean that we have to program a routine to keep it in sync with the source of truth (Transactions table).
+A balance column can lead to inconsistencies, as it's a fact that is derived from the transactions table. Adding it would mean that we have to program a routine to keep it in sync with the source of truth (Transactions table).
 A better approach, discussed in [Road to the Future](#road-to-the-future) is to create a Personal Account Closed Balance table (same applies for Nominal Accounts) and only update it on every defined time window that makes sense.
 Then the number of rows needed to calculate the balance would be 1 + all transactions from that account on the open period.
 
