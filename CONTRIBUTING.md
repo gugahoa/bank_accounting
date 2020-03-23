@@ -18,7 +18,7 @@ When contributing to this project, first read the [Design Decisions](#design-dec
 2. Update the README.md if necessary, and the [Design Decisions](#design-decisions) section
 3. Ensure that the [Database Model](#database-model) is up to date
 4. Ensure you have tests covering the core parts of the pull request
-5. Open the PR and ask for review from any maintainer. The sign-off from one maintainer is already enough to merge the PR.
+5. Open the PR and ask for a review from any maintainer. The sign-off from one maintainer is already enough to merge the PR.
 
 ## Design Decisions
 
@@ -26,11 +26,11 @@ Here you'll find all design decisions that were made to arrive at the current ar
 
 ### Why Double Entry Bookkeeping?
 
-Although this project aims to be a simple bank accounting system, developing a home grown system that only works for the proposed features is prone to errors and maintability issues, as we would reinvent the wheel in most cases.
+Although this project aims to be a simple bank accounting system, developing a homegrown system that only works for the proposed features are prone to errors and maintainability issues, as we would reinvent the wheel in most cases.
 That's why we're adopting the Double Entry Bookkeeping approach, that's tried and true in the accounting industry.
 
-A Double Entry Bookkeeping can be used as a financial tracking system, but not all financial tracking systems can be used as Double Entry Bookkeeping sytem.
-So to improve maintability, we're adopting it, and simplifying what we'll implement from it, but still paving the road to a full blown Double Entry Bookkeeping system if necessary.
+Double Entry Bookkeeping can be used as a financial tracking system, but not all financial tracking systems can be used as a Double Entry Bookkeeping system.
+So to improve maintainability, we're adopting it, and simplifying what we'll implement from it, but still paving the road to a full-blown Double Entry Bookkeeping system if necessary.
 
 ### Database Model
 
