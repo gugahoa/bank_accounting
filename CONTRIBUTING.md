@@ -14,7 +14,7 @@ When contributing to this project, first read the [Design Decisions](#design-dec
   * [Trade-offs](#trade-offs)
     * [Why is user information separated from Personal Account?](#why-is-user-information-separated-from-personal-account)
     * [Transaction value as string](#transaction-value-as-string)
-    * [Nominal Account vs Personal Account](#nominal-account-vs-personal-account)
+    * [Nominal Account and Personal Account](#nominal-account-and-personal-account)
     * [No balance column](#no-balance-column)
   * [Road to the Future](#road-to-the-future)
     * [Improve balance calculation](#improve-balance-calculation)
@@ -70,7 +70,7 @@ As floating point can suffer from floating point precision errors, we use the De
 
 Over the wire, we'll also receive the value as string.
 
-### Nominal Account vs Personal Account
+### Nominal Account and Personal Account
 
 Having an Accounts table instead of two separate tables, with a type column, would simplify the transactions between Personal Accounts, however, it would likely lead to a rewrite down the road. There are two main reasons why they were separated:
 
