@@ -14,6 +14,7 @@ When contributing to this project, first read the [Design Decisions](#design-dec
     * [Why is user information separated from Personal Account?](#why-is-user-information-separated-from-personal-account)
     * [Transaction value as string](#transaction-value-as-string)
   * [Trade-offs](#trade-offs)
+    * [Why does transfers go through an Asset Nominal Account, instead of a Liability?](why-does-transfers-go-through-an-asset-nominal-account,-instead-of-a-liability)
     * [string vs int vs float to represent a transaction value](#string-vs-int-vs-float-to-represent-a-transaction-value)
     * [Nominal Account and Personal Account](#nominal-account-and-personal-account)
     * [No balance column](#no-balance-column)
@@ -70,6 +71,16 @@ As floating point can suffer from floating point precision errors, we use the De
 Over the wire, we'll also receive the value as string.
 
 ## Trade-offs
+
+### Why does transfers go through an Asset Nominal Account, instead of a Liability?
+
+If you read the [Transfer between accounts](https://github.com/gugahoa/bank_accounting/wiki/Double-Entry-Bookkeeping#transfer-between-checking-accounts) in the Double Entry Bookkeeping wiki page, you may have wondered why did we choose to move money through an asset account instead of a liability account.
+
+To keep the [Database Model](#database-model) relatively simple, there's two assumptions being made about the types of Personal Account and Nominal Account.
+The model and project is assuming that all Personal Accounts are liabilities, and all Nominal Account are assets.
+
+If we [add a new Personal Account Type](#adding-a-new-personal-account-type) and [add a new Nominal Account Type](#adding-a-new-nominal-account-type), it would be possible to make the transfer between accounts go through a liability Nominal Account instead of an asset one.
+
 
 ### string vs int vs float to represent a transaction value
 
