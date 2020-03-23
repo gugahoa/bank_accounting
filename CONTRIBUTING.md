@@ -12,6 +12,7 @@ When contributing to this project, first read the [Design Decisions](#design-dec
     * [Why Double Entry Bookkeeping](#why-double-entry-bookkeeping)
     * [Database Model](#database-model)
   * [Trade-offs](#trade-offs)
+    * [Transaction value as string](#transaction-value-as-string)
     * [Nominal Account vs Personal Account](#nominal-account-vs-personal-account)
     * [No balance column](#no-balance-column)
   * [Road to the Future](#road-to-the-future)
@@ -51,6 +52,12 @@ This model is enough to properly represent transactions between accounts, deposi
 As the system requirements evolve, you may need to extend this. We'll discuss in [Road to the Future](#road-to-the-future) what requirements would elicit what changes.
 
 ## Trade-offs
+
+### Transaction value as string
+
+As floating point can suffer from floating point precision errors, we use the Decimal library in this project, which accepts strings to construct a Decimal type.
+
+Over the wire, we'll also receive the value as string.
 
 ### Nominal Account vs Personal Account
 
