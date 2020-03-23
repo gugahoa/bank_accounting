@@ -19,6 +19,7 @@ When contributing to this project, first read the [Design Decisions](#design-dec
     * [Add new Personal Account Types](#add-new-personal-account-types)
     * [Add new Nominal Account Types](#add-new-nominal-account-types)
     * [Adding a fee for certain Personal Accounts](#adding-a-fee-for-certain-personal-accounts)
+  * [Conclusion](#conclusion)
 <!--te--> 
 ## Pull Request Process
 
@@ -98,4 +99,10 @@ This is highly dependent on context, so take some time to properly reason about 
 Currently all transactions are either deposits or withdrawals, and we reason about them seeing if the transaction is a debit or credit. Credit on a Personal Account is a deposit and debit on a Personal Account is a withdrawal.
 
 To add different kinds of transactions, create an Extended Transaction Type table, which would have the different types of transactions that are being added, and add a column to Transactions that reference Extended Transaction Type table.
+
+## Conclusion
+
+Now you should have all the context necessary to reason about new features, and a clear view of how to further extend what we already have.
+
+If you feel that something is missing, please feel free to open an issue so we can further improve this guide.
 
