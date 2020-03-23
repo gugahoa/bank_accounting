@@ -1,8 +1,8 @@
 # Bank Accounting
 
-This projects is a demo of a simple bank accounting system, it features the following actions:
+This project is a demo of a simple bank accounting system, it features the following actions:
 
-- Create an account with a initial deposit amount
+- Create an account with an initial deposit amount
 - Transfer between accounts
 - Consult account balance
 
@@ -35,7 +35,7 @@ Elixir has a great [installation guide](https://elixir-lang.org/install.html) th
 After installing Elixir, follow the [Phoenix installation guide](https://hexdocs.pm/phoenix/installation.html#contenta).
 And finally, install PostgreSQL 12 following this [installation guide](https://wiki.postgresql.org/wiki/Detailed_installation_guides).
 
-Finally, you can run the project. First, change the database hostname, user and password at `config/dev.exs` to what you configured during the postgres installation.
+Finally, you can run the project. First, change the database hostname, user and password at `config/dev.exs` to what you configured during the PostgreSQL installation.
 
 After that, create the database with the command below.
 
@@ -55,7 +55,7 @@ With the database created, create the seed data with
 mix run priv/repo/seeds.exs
 ```
 
-This should leave you with a properly cofigured development environment.
+This should leave you with a properly configured development environment.
 
 
 ### Running with Docker
@@ -69,6 +69,7 @@ After that, it should be as simple as running the following command
 docker-compose up
 ```
 
-You will still retaing live reload functionalities using docker because it's mounting your project directory into the container.
+You will still retain live reload functionalities using docker because it's mounting your project directory into the container.
 
-> The project image also installs postgresql client, so if you need you can attach to the container and use psql there.
+> The project image also installs PostgreSQL client, so if you need you can attach to the container and use psql there.
+
