@@ -11,9 +11,9 @@ When contributing to this project, first read the [Design Decisions](#design-dec
   * [Design Decisions](#design-decisions)
     * [Why Double Entry Bookkeeping](#why-double-entry-bookkeeping)
     * [Database Model](#database-model)
-  * [Trade-offs](#trade-offs)
     * [Why is user information separated from Personal Account?](#why-is-user-information-separated-from-personal-account)
     * [Transaction value as string](#transaction-value-as-string)
+  * [Trade-offs](#trade-offs)
     * [Nominal Account and Personal Account](#nominal-account-and-personal-account)
     * [No balance column](#no-balance-column)
   * [Road to the Future](#road-to-the-future)
@@ -52,8 +52,6 @@ To properly understand the trade-offs being made here, and the path to the futur
 This model is enough to properly represent transactions between accounts, deposits to an account and consulting account balance.
 As the system requirements evolve, you may need to extend this. We'll discuss in [Road to the Future](#road-to-the-future) what requirements would elicit what changes.
 
-## Trade-offs
-
 ### Why is user information separated from Personal Account?
 
 User information could very well live in the Personal Account table.
@@ -69,6 +67,8 @@ Since both of these cases seems common enough, I modeled as such.
 As floating point can suffer from floating point precision errors, we use the Decimal library in this project, which accepts strings to construct a Decimal type.
 
 Over the wire, we'll also receive the value as string.
+
+## Trade-offs
 
 ### Nominal Account and Personal Account
 
