@@ -22,8 +22,8 @@ The design decisions, trade-offs and how to extend the system can be found on th
 
 ## Getting Started
 
-These instructions will walk you though on how to run this project locally, for development and testing purposes.
-There's no production deployment instructions, as this project is not for production use, but to give a solid base and understanding of the Double Entry Bookkeeping system.
+These instructions will walk you through on how to run this project locally, for development and testing purposes.
+There are no production deployment instructions, as this project isn't being used in production.
 
 ### Prerequisites
 
