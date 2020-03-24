@@ -6,6 +6,9 @@ defmodule BankAccounting.Ledger.Transaction do
 
   schema "transactions" do
     field :value, :decimal
+    # The type here is from the point of view of a Nominal Account
+    # So a type of "debit" means we're doing a debit on the Nominal Account
+    # and a credit on the Personal Account
     field :type, :string
 
     belongs_to :nominal_account, NominalAccount

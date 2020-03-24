@@ -53,6 +53,8 @@ To properly understand the trade-offs being made here, and the path to the futur
 
 The Nominal Account id has semantic meaning, and should not be random, so it can be relied upon as a static value thorough the code base.
 
+The Transaction Type always applies to Nominal Account.
+
 This model is enough to properly represent transactions between accounts, deposits to an account and consulting account balance.
 As the system requirements evolve, you may need to extend this. We'll discuss in [Road to the Future](#road-to-the-future) what requirements would elicit what changes.
 
