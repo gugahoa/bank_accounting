@@ -112,4 +112,63 @@ defmodule BankAccounting.LedgerTest do
       assert %Ecto.Changeset{} = Ledger.change_personal_account(personal_account)
     end
   end
+
+  describe "transaction_types" do
+    alias BankAccounting.Ledger.TransactionType
+
+    @valid_attrs %{name: "some name"}
+    @update_attrs %{name: "some updated name"}
+    @invalid_attrs %{name: nil}
+
+    def transaction_type_fixture(attrs \\ %{}) do
+      {:ok, transaction_type} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Ledger.create_transaction_type()
+
+      transaction_type
+    end
+
+    test "list_transaction_types/0 returns all transaction_types" do
+      transaction_type = transaction_type_fixture()
+      assert Ledger.list_transaction_types() == [transaction_type]
+    end
+
+    test "get_transaction_type!/1 returns the transaction_type with given id" do
+      transaction_type = transaction_type_fixture()
+      assert Ledger.get_transaction_type!(transaction_type.name) == transaction_type
+    end
+
+    test "create_transaction_type/1 with valid data creates a transaction_type" do
+      assert {:ok, %TransactionType{} = transaction_type} = Ledger.create_transaction_type(@valid_attrs)
+      assert transaction_type.name == "some name"
+    end
+
+    test "create_transaction_type/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Ledger.create_transaction_type(@invalid_attrs)
+    end
+
+    test "update_transaction_type/2 with valid data updates the transaction_type" do
+      transaction_type = transaction_type_fixture()
+      assert {:ok, %TransactionType{} = transaction_type} = Ledger.update_transaction_type(transaction_type, @update_attrs)
+      assert transaction_type.name == "some updated name"
+    end
+
+    test "update_transaction_type/2 with invalid data returns error changeset" do
+      transaction_type = transaction_type_fixture()
+      assert {:error, %Ecto.Changeset{}} = Ledger.update_transaction_type(transaction_type, @invalid_attrs)
+      assert transaction_type == Ledger.get_transaction_type!(transaction_type.name)
+    end
+
+    test "delete_transaction_type/1 deletes the transaction_type" do
+      transaction_type = transaction_type_fixture()
+      assert {:ok, %TransactionType{}} = Ledger.delete_transaction_type(transaction_type)
+      assert_raise Ecto.NoResultsError, fn -> Ledger.get_transaction_type!(transaction_type.name) end
+    end
+
+    test "change_transaction_type/1 returns a transaction_type changeset" do
+      transaction_type = transaction_type_fixture()
+      assert %Ecto.Changeset{} = Ledger.change_transaction_type(transaction_type)
+    end
+  end
 end
