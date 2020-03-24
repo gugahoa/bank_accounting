@@ -211,5 +211,14 @@ defmodule BankAccounting.LedgerTest do
       value = Decimal.new(100)
       assert {:ok, %Transaction{value: ^value, type: "debit"}} = Ledger.deposit(personal_account, 100)
     end
+
+    test "balance/1 should return the account balance" do
+      insert(:debit_type)
+      personal_account = insert(:personal_account)
+      assert Decimal.eq?(Ledger.balance(personal_account), Decimal.new(0))
+
+      insert(:deposit, %{ value: 50, personal_account: personal_account })
+      assert Decimal.eq?(Ledger.balance(personal_account), Decimal.new(50))
+    end
   end
 end

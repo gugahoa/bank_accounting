@@ -334,4 +334,29 @@ defmodule BankAccounting.Ledger do
   def deposit(%PersonalAccount{} = personal_account, amount) do
     deposit(personal_account, Decimal.new(amount))
   end
+
+  @doc """
+  Calculate a Personal Account balance
+
+  ## Examples
+
+    iex> balance(personal_account)
+    #Decimal<100.0>
+
+  """
+  def balance(%PersonalAccount{} = personal_account)do
+    # Here we're finding transactions with type "debit" and calling it total credit
+    # This may seem counterintuitive, but remember that the type column always refers to the Nominal Account. A transaction with type "debit" means a "credit" to the personal_account
+    total_credit =
+      Transaction
+      |> where([t], t.personal_account_id == ^personal_account.id and t.type == "debit")
+      |> Repo.aggregate(:sum, :value)
+
+    total_debit =
+      Transaction
+      |> where([t], t.personal_account_id == ^personal_account.id and t.type == "credit")
+      |> Repo.aggregate(:sum, :value)
+
+    Decimal.sub(total_credit || Decimal.new(0), total_debit || Decimal.new(0))
+  end
 end
