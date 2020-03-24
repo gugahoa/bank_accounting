@@ -14,7 +14,7 @@ services:
     ports:
       - 4000:4000
     depends_on:
-      - bank_accounting_db
+      - db
     volumes:
       - ./:/opt/bank_accounting_dev
   db:
