@@ -320,6 +320,9 @@ defmodule BankAccounting.Ledger do
     if Decimal.negative?(amount) do
       {:error, :invalid_amount}
     else
+      # We're only creating one transaction for a deposit, instead of two, that would normaly go in a traditional ledger.
+      # That's because we already have the two accounts affected by the transaction, so we can infer that a debit on Nominal Account is a credit on Personal Account.
+      # This will reduce by half the size of the transactions table
       create_transaction(%{
         "value" => amount,
         "personal_account_id" => personal_account.id,
