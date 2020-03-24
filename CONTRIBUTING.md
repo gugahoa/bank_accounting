@@ -66,12 +66,6 @@ I thought of two cases where I wouldn't put User information inside Personal Acc
 
 Since both of these cases seems common enough, I modeled as such.
 
-### Transaction value as string
-
-As floating point can suffer from floating point precision errors, we use the Decimal library in this project, which accepts strings to construct a Decimal type.
-
-Over the wire, we'll also receive the value as string.
-
 ## Trade-offs
 
 ### Why do transfers go through an Asset Nominal Account, instead of a Liability?
