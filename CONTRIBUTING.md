@@ -51,6 +51,8 @@ So to improve maintainability, we're adopting it, and simplifying what we'll imp
 
 To properly understand the trade-offs being made here, and the path to the future, please read the wiki entry on [Double Entry Bookkeeping](https://github.com/gugahoa/bank_accounting/wiki/Double-Entry-Bookkeeping). If you already know about Double Entry Bookkeeping, keep in mind that we adopt the Traditional Approach to reason about debit and credit.
 
+The Nominal Account id has semantic meaning, and should not be random, so it can be relied upon as a static value thorough the code base.
+
 This model is enough to properly represent transactions between accounts, deposits to an account and consulting account balance.
 As the system requirements evolve, you may need to extend this. We'll discuss in [Road to the Future](#road-to-the-future) what requirements would elicit what changes.
 
