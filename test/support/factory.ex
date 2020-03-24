@@ -21,4 +21,22 @@ defmodule BankAccounting.Factory do
       user: build(:user),
     }
   end
+
+  def nominal_account_factory do
+    %BankAccounting.Ledger.NominalAccount{
+      id: 100
+    }
+  end
+
+  def credit_type_factory do
+    %BankAccounting.Ledger.TransactionType{
+      name: "credit"
+    }
+  end
+
+  def debit_type_factory do
+    %BankAccounting.Ledger.TransactionType{
+      name: "debit"
+    }
+  end
 end

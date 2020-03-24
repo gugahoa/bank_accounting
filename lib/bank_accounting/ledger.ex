@@ -293,4 +293,46 @@ defmodule BankAccounting.Ledger do
   def change_transaction_type(%TransactionType{} = transaction_type) do
     TransactionType.changeset(transaction_type, %{})
   end
+
+  alias BankAccounting.Ledger.Transaction
+
+  defp create_transaction(attrs) do
+    %Transaction{}
+    |> Transaction.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Create a transaction that represents a deposit to the given Personal Account.
+  A Nominal Account with id 100 must exist for a deposit to occur.
+  For relevant data that must exist, see the seed.exs file.
+
+  ## Examples
+
+    iex> deposit(personal_account, amount)
+    {:ok, %Transaction{}}
+
+    iex> deposit(personal_account, invalid_amount)
+    {:error, :invalid_amount}
+  """
+  def deposit(%PersonalAccount{} = personal_account, amount) when is_binary(amount) do
+    with {value, ""} when value > 0 <- Float.parse(amount),
+         %NominalAccount{} = bank_asset <- get_nominal_account!(100) do
+      create_transaction(%{
+        "value" => amount,
+        "personal_account_id" => personal_account.id,
+        "nominal_account_id" => bank_asset.id,
+        "type" => "debit"
+      })
+    else
+      {_value, _rest} -> {:error, :invalid_amount}
+      :error -> {:error, :invalid_amount}
+    end
+  end
+  def deposit(%PersonalAccount{} = personal_account, amount) when is_float(amount) do
+    deposit(personal_account, Float.to_string(amount))
+  end
+  def deposit(%PersonalAccount{} = personal_account, amount) when is_integer(amount) do
+    deposit(personal_account, Integer.to_string(amount))
+  end
 end

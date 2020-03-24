@@ -9,3 +9,10 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias BankAccounting.Ledger
+
+Ledger.create_nominal_account(%{
+  "id" => 100,
+  "description" => "Bank Cash Asset"
+})

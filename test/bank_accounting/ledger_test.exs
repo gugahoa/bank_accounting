@@ -171,4 +171,43 @@ defmodule BankAccounting.LedgerTest do
       assert %Ecto.Changeset{} = Ledger.change_transaction_type(transaction_type)
     end
   end
+
+  describe "transactions" do
+    alias Ledger.Transaction
+
+    test "deposit/2 with valid data should properly create a transaction" do
+      personal_account = insert(:personal_account)
+      insert(:nominal_account)
+      insert(:debit_type)
+
+      value = "100.0"
+      assert {:ok, %Transaction{value: ^value, type: "debit"}} = Ledger.deposit(personal_account, value)
+    end
+
+    test "deposit/2 with negative value should not create a transaction" do
+      personal_account = insert(:personal_account)
+      insert(:nominal_account)
+      insert(:debit_type)
+
+      assert {:error, :invalid_amount} = Ledger.deposit(personal_account, "-100.0")
+    end
+
+    test "deposit/2 with invalid value should not create a transaction" do
+      personal_account = insert(:personal_account)
+      insert(:nominal_account)
+      insert(:debit_type)
+
+      assert {:error, :invalid_amount} = Ledger.deposit(personal_account, "somestring")
+    end
+
+    test "deposit/2 should convert number to string before creation" do
+      personal_account = insert(:personal_account)
+      insert(:nominal_account)
+      insert(:debit_type)
+
+      assert {:ok, %Transaction{value: "100.0", type: "debit"}} = Ledger.deposit(personal_account, 100.0)
+
+      assert {:ok, %Transaction{value: "100", type: "debit"}} = Ledger.deposit(personal_account, 100)
+    end
+  end
 end
