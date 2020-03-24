@@ -101,4 +101,100 @@ defmodule BankAccounting.Ledger do
   def change_nominal_account(%NominalAccount{} = nominal_account) do
     NominalAccount.changeset(nominal_account, %{})
   end
+
+  alias BankAccounting.Ledger.PersonalAccount
+
+  @doc """
+  Returns the list of personal_accounts.
+
+  ## Examples
+
+      iex> list_personal_accounts()
+      [%PersonalAccount{}, ...]
+
+  """
+  def list_personal_accounts do
+    Repo.all(PersonalAccount)
+  end
+
+  @doc """
+  Gets a single personal_account.
+
+  Raises `Ecto.NoResultsError` if the Personal account does not exist.
+
+  ## Examples
+
+      iex> get_personal_account!(123)
+      %PersonalAccount{}
+
+      iex> get_personal_account!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_personal_account!(id), do: Repo.get!(PersonalAccount, id)
+
+  @doc """
+  Creates a personal_account.
+
+  ## Examples
+
+      iex> create_personal_account(%{field: value})
+      {:ok, %PersonalAccount{}}
+
+      iex> create_personal_account(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_personal_account(attrs \\ %{}) do
+    %PersonalAccount{}
+    |> PersonalAccount.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a personal_account.
+
+  ## Examples
+
+      iex> update_personal_account(personal_account, %{field: new_value})
+      {:ok, %PersonalAccount{}}
+
+      iex> update_personal_account(personal_account, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_personal_account(%PersonalAccount{} = personal_account, attrs) do
+    personal_account
+    |> PersonalAccount.update_changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a personal_account.
+
+  ## Examples
+
+      iex> delete_personal_account(personal_account)
+      {:ok, %PersonalAccount{}}
+
+      iex> delete_personal_account(personal_account)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_personal_account(%PersonalAccount{} = personal_account) do
+    Repo.delete(personal_account)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking personal_account changes.
+
+  ## Examples
+
+      iex> change_personal_account(personal_account)
+      %Ecto.Changeset{source: %PersonalAccount{}}
+
+  """
+  def change_personal_account(%PersonalAccount{} = personal_account) do
+    PersonalAccount.update_changeset(personal_account, %{})
+  end
 end

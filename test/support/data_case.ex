@@ -24,6 +24,8 @@ defmodule BankAccounting.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import BankAccounting.DataCase
+
+      import BankAccounting.Factory
     end
   end
 
