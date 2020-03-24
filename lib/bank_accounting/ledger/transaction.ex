@@ -2,11 +2,14 @@ defmodule BankAccounting.Ledger.Transaction do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias BankAccounting.Ledger.{NominalAccount, PersonalAccount}
+
   schema "transactions" do
-    field :value, :string
-    field :personal_account_id, :id
-    field :nominal_account_id, :id
+    field :value, :decimal
     field :type, :string
+
+    belongs_to :nominal_account, NominalAccount
+    belongs_to :personal_account, PersonalAccount
 
     timestamps()
   end

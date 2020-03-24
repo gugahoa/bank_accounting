@@ -180,7 +180,7 @@ defmodule BankAccounting.LedgerTest do
       insert(:nominal_account)
       insert(:debit_type)
 
-      value = "100.0"
+      value = Decimal.new("100.0")
       assert {:ok, %Transaction{value: ^value, type: "debit"}} = Ledger.deposit(personal_account, value)
     end
 
@@ -197,7 +197,7 @@ defmodule BankAccounting.LedgerTest do
       insert(:nominal_account)
       insert(:debit_type)
 
-      assert {:error, :invalid_amount} = Ledger.deposit(personal_account, "somestring")
+      assert_raise Decimal.Error, fn -> Ledger.deposit(personal_account, "somestring") end
     end
 
     test "deposit/2 should convert number to string before creation" do
@@ -205,9 +205,11 @@ defmodule BankAccounting.LedgerTest do
       insert(:nominal_account)
       insert(:debit_type)
 
-      assert {:ok, %Transaction{value: "100.0", type: "debit"}} = Ledger.deposit(personal_account, 100.0)
+      value = Decimal.from_float(100.0)
+      assert {:ok, %Transaction{value: ^value, type: "debit"}} = Ledger.deposit(personal_account, 100.0)
 
-      assert {:ok, %Transaction{value: "100", type: "debit"}} = Ledger.deposit(personal_account, 100)
+      value = Decimal.new(100)
+      assert {:ok, %Transaction{value: ^value, type: "debit"}} = Ledger.deposit(personal_account, 100)
     end
   end
 end

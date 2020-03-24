@@ -315,24 +315,23 @@ defmodule BankAccounting.Ledger do
     iex> deposit(personal_account, invalid_amount)
     {:error, :invalid_amount}
   """
-  def deposit(%PersonalAccount{} = personal_account, amount) when is_binary(amount) do
-    with {value, ""} when value > 0 <- Float.parse(amount),
-         %NominalAccount{} = bank_asset <- get_nominal_account!(100) do
+  def deposit(%PersonalAccount{} = personal_account, %Decimal{} = amount) do
+    bank_asset = get_nominal_account!(100)
+    if Decimal.negative?(amount) do
+      {:error, :invalid_amount}
+    else
       create_transaction(%{
         "value" => amount,
         "personal_account_id" => personal_account.id,
         "nominal_account_id" => bank_asset.id,
         "type" => "debit"
       })
-    else
-      {_value, _rest} -> {:error, :invalid_amount}
-      :error -> {:error, :invalid_amount}
     end
   end
   def deposit(%PersonalAccount{} = personal_account, amount) when is_float(amount) do
-    deposit(personal_account, Float.to_string(amount))
+    deposit(personal_account, Decimal.from_float(amount))
   end
-  def deposit(%PersonalAccount{} = personal_account, amount) when is_integer(amount) do
-    deposit(personal_account, Integer.to_string(amount))
+  def deposit(%PersonalAccount{} = personal_account, amount) do
+    deposit(personal_account, Decimal.new(amount))
   end
 end
