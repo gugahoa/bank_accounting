@@ -351,6 +351,8 @@ defmodule BankAccounting.Ledger do
 
   """
   def balance(%PersonalAccount{} = personal_account) do
+    # The balance is saved on a column inside personal_account that is updated by a trigger.
+    # The trigger name is update_derived_balance_trigger, the function called is update_derived_balance.
     Repo.get(PersonalAccount, personal_account.id).derived_balance
   end
 
