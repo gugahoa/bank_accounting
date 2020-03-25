@@ -24,5 +24,6 @@ defmodule BankAccountingWeb.Router do
     pipe_through [:api, :protected]
 
     post "/transfer/:from/:to", LedgerController, :transfer
+    get "/balance/:account_id", LedgerController, :balance
   end
 end

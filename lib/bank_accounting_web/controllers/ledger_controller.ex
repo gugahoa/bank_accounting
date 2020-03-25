@@ -30,4 +30,20 @@ defmodule BankAccountingWeb.LedgerController do
       end
     end
   end
+
+  def balance(conn, %{"account_id" => account_id}) do
+    user = Guardian.Plug.current_resource(conn)
+    personal_account = Ledger.get_personal_account!(account_id)
+
+    if user.id != personal_account.user_id do
+      conn
+      |> put_status(:forbidden)
+      |> put_view(BankAccountingWeb.ErrorView)
+      |> render("error.json", message: "you're not authorized to perform this operation")
+    else
+      conn
+      |> put_status(:ok)
+      |> render("balance.json", personal_account: personal_account)
+    end
+  end
 end
