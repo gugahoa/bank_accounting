@@ -12,7 +12,6 @@ When contributing to this project, first read the [Design Decisions](#design-dec
     * [Why Double Entry Bookkeeping](#why-double-entry-bookkeeping)
     * [Database Model](#database-model)
     * [Why is user information separated from Personal Account?](#why-is-user-information-separated-from-personal-account)
-    * [Transaction value as string](#transaction-value-as-string)
   * [Trade-offs](#trade-offs)
     * [Why does transfers go through an Asset Nominal Account, instead of a Liability?](why-does-transfers-go-through-an-asset-nominal-account-instead-of-a-liability)
     * [string vs int vs float to represent a transaction value](#string-vs-int-vs-float-to-represent-a-transaction-value)
