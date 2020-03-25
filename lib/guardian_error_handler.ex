@@ -7,6 +7,6 @@ defmodule BankAccounting.GuardianErrorHandler do
   def auth_error(conn, _, _) do
     conn
     |> put_resp_content_type("application/json")
-    |> send_resp(:unauthorized, %{"error" => "please authenticate again"} |> Jason.encode!)
+    |> send_resp(:unauthorized, %{"error" => "please authenticate again"} |> Jason.encode!())
   end
 end

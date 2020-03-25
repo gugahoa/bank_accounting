@@ -7,6 +7,5 @@ defmodule BankAccounting.Repo.Migrations.CreateNominalAccounts do
 
       timestamps()
     end
-
   end
 end

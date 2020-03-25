@@ -140,7 +140,9 @@ defmodule BankAccounting.LedgerTest do
     end
 
     test "create_transaction_type/1 with valid data creates a transaction_type" do
-      assert {:ok, %TransactionType{} = transaction_type} = Ledger.create_transaction_type(@valid_attrs)
+      assert {:ok, %TransactionType{} = transaction_type} =
+               Ledger.create_transaction_type(@valid_attrs)
+
       assert transaction_type.name == "some name"
     end
 
@@ -150,20 +152,29 @@ defmodule BankAccounting.LedgerTest do
 
     test "update_transaction_type/2 with valid data updates the transaction_type" do
       transaction_type = transaction_type_fixture()
-      assert {:ok, %TransactionType{} = transaction_type} = Ledger.update_transaction_type(transaction_type, @update_attrs)
+
+      assert {:ok, %TransactionType{} = transaction_type} =
+               Ledger.update_transaction_type(transaction_type, @update_attrs)
+
       assert transaction_type.name == "some updated name"
     end
 
     test "update_transaction_type/2 with invalid data returns error changeset" do
       transaction_type = transaction_type_fixture()
-      assert {:error, %Ecto.Changeset{}} = Ledger.update_transaction_type(transaction_type, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Ledger.update_transaction_type(transaction_type, @invalid_attrs)
+
       assert transaction_type == Ledger.get_transaction_type!(transaction_type.name)
     end
 
     test "delete_transaction_type/1 deletes the transaction_type" do
       transaction_type = transaction_type_fixture()
       assert {:ok, %TransactionType{}} = Ledger.delete_transaction_type(transaction_type)
-      assert_raise Ecto.NoResultsError, fn -> Ledger.get_transaction_type!(transaction_type.name) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Ledger.get_transaction_type!(transaction_type.name)
+      end
     end
 
     test "change_transaction_type/1 returns a transaction_type changeset" do
@@ -181,7 +192,9 @@ defmodule BankAccounting.LedgerTest do
       insert(:debit_type)
 
       value = Decimal.new("100.0")
-      assert {:ok, %Transaction{value: ^value, type: "debit"}} = Ledger.deposit(personal_account, value)
+
+      assert {:ok, %Transaction{value: ^value, type: "debit"}} =
+               Ledger.deposit(personal_account, value)
     end
 
     test "deposit/2 with negative value should not create a transaction" do
@@ -206,10 +219,14 @@ defmodule BankAccounting.LedgerTest do
       insert(:debit_type)
 
       value = Decimal.from_float(100.0)
-      assert {:ok, %Transaction{value: ^value, type: "debit"}} = Ledger.deposit(personal_account, 100.0)
+
+      assert {:ok, %Transaction{value: ^value, type: "debit"}} =
+               Ledger.deposit(personal_account, 100.0)
 
       value = Decimal.new(100)
-      assert {:ok, %Transaction{value: ^value, type: "debit"}} = Ledger.deposit(personal_account, 100)
+
+      assert {:ok, %Transaction{value: ^value, type: "debit"}} =
+               Ledger.deposit(personal_account, 100)
     end
 
     test "balance/1 should return the account balance" do
@@ -217,7 +234,7 @@ defmodule BankAccounting.LedgerTest do
       personal_account = insert(:personal_account)
       assert Decimal.eq?(Ledger.balance(personal_account), Decimal.new(0))
 
-      insert(:deposit, %{ value: 50, personal_account: personal_account })
+      insert(:deposit, %{value: 50, personal_account: personal_account})
       assert Decimal.eq?(Ledger.balance(personal_account), Decimal.new(50))
     end
 
@@ -244,7 +261,10 @@ defmodule BankAccounting.LedgerTest do
 
       insert(:credit_type)
       to = insert(:personal_account)
-      assert {:error, :from_transaction, %Ecto.Changeset{}, _changes_so_far} = Ledger.transfer(from, to, 50)
+
+      assert {:error, :from_transaction, %Ecto.Changeset{}, _changes_so_far} =
+               Ledger.transfer(from, to, 50)
+
       assert Decimal.eq?(Ledger.balance(from), Decimal.new(0))
       assert Decimal.eq?(Ledger.balance(to), Decimal.new(0))
     end

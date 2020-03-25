@@ -330,9 +330,11 @@ defmodule BankAccounting.Ledger do
       "type" => "debit"
     })
   end
+
   def deposit(%PersonalAccount{} = personal_account, amount) when is_float(amount) do
     deposit(personal_account, Decimal.from_float(amount))
   end
+
   def deposit(%PersonalAccount{} = personal_account, amount) do
     deposit(personal_account, Decimal.new(amount))
   end
@@ -371,23 +373,31 @@ defmodule BankAccounting.Ledger do
   def transfer(%PersonalAccount{} = from, %PersonalAccount{} = to, %Decimal{} = amount) do
     # We don't need to handle the case of negative balance after a insertion, as it's a database constraint
     bank_asset = get_nominal_account!(100)
-    multi = Ecto.Multi.new()
-            |> Ecto.Multi.insert(:from_transaction, Transaction.changeset(%Transaction{}, %{
-               "value" => amount,
-               "personal_account_id" => from.id,
-               "nominal_account_id" => bank_asset.id,
-               "type" => "credit"
-                # The type column always applies to the Nominal Account, instead of Personal Account.
-                # So this means a debit on Personal Account
-            }))
-            |> Ecto.Multi.insert(:to_transaction, Transaction.changeset(%Transaction{}, %{
-               "value" => amount,
-               "personal_account_id" => to.id,
-               "nominal_account_id" => bank_asset.id,
-               "type" => "debit"
-                # The type column always applies to the Nominal Account, instead of Personal Account.
-                # So this means a credit on Personal Account
-            }))
+
+    multi =
+      Ecto.Multi.new()
+      |> Ecto.Multi.insert(
+        :from_transaction,
+        Transaction.changeset(%Transaction{}, %{
+          "value" => amount,
+          "personal_account_id" => from.id,
+          "nominal_account_id" => bank_asset.id,
+          "type" => "credit"
+          # The type column always applies to the Nominal Account, instead of Personal Account.
+          # So this means a debit on Personal Account
+        })
+      )
+      |> Ecto.Multi.insert(
+        :to_transaction,
+        Transaction.changeset(%Transaction{}, %{
+          "value" => amount,
+          "personal_account_id" => to.id,
+          "nominal_account_id" => bank_asset.id,
+          "type" => "debit"
+          # The type column always applies to the Nominal Account, instead of Personal Account.
+          # So this means a credit on Personal Account
+        })
+      )
 
     Repo.transaction(multi)
   end

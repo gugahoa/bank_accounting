@@ -16,7 +16,7 @@ defmodule BankAccounting.Factory do
 
   def personal_account_factory do
     %BankAccounting.Ledger.PersonalAccount{
-      user: build(:user),
+      user: build(:user)
     }
   end
 

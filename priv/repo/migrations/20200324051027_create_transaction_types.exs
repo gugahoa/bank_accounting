@@ -7,6 +7,5 @@ defmodule BankAccounting.Repo.Migrations.CreateTransactionTypes do
 
       timestamps()
     end
-
   end
 end
