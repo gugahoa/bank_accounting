@@ -16,7 +16,9 @@ services:
     depends_on:
       - db
     volumes:
-      - ./:/opt/bank_accounting_dev
+      - ./lib:/opt/bank_accounting_dev/lib
+      - ./test:/opt/bank_accounting_dev/test
+
   db:
     image: postgres:12
     environment:
