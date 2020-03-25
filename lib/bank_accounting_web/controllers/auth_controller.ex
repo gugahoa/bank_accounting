@@ -9,7 +9,7 @@ defmodule BankAccountingWeb.AuthController do
          {:ok, token, _claims} <- BankAccounting.Guardian.encode_and_sign(user) do
       conn
       |> put_status(:ok)
-      |> json(%{"access_token" => token})
+      |> render("login.json", access_token: token)
     else
       _ ->
         conn
