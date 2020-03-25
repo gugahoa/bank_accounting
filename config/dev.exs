@@ -5,7 +5,7 @@ config :bank_accounting, BankAccounting.Repo,
   username: "postgres",
   password: "postgres",
   database: "bank_accounting_dev",
-  hostname: "bank_accounting_db",
+  hostname: "db",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
