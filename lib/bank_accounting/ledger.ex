@@ -377,12 +377,16 @@ defmodule BankAccounting.Ledger do
                "personal_account_id" => from.id,
                "nominal_account_id" => bank_asset.id,
                "type" => "credit"
+                # The type column always applies to the Nominal Account, instead of Personal Account.
+                # So this means a debit on Personal Account
             }))
             |> Ecto.Multi.insert(:to_transaction, Transaction.changeset(%Transaction{}, %{
                "value" => amount,
                "personal_account_id" => to.id,
                "nominal_account_id" => bank_asset.id,
                "type" => "debit"
+                # The type column always applies to the Nominal Account, instead of Personal Account.
+                # So this means a credit on Personal Account
             }))
 
     Repo.transaction(multi)
