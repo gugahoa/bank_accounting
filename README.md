@@ -34,7 +34,22 @@ There are no production deployment instructions, as this project isn't being use
 
 ### Prerequisites
 
-To run this project, you can install Elixir, Phoenix and PostgreSQL locally, or use Docker.
+To run this project, you can use Docker or install Elixir, Phoenix and PostgreSQL locally.
+
+### Running with Docker
+
+Install Docker via the [official installation guide](https://docs.docker.com/install/)
+Install Docker Compose also via the [official installation guide](https://docs.docker.com/compose/install/)
+
+After that, it should be as simple as running the following command
+
+```sh
+docker-compose up
+```
+
+You will still retain live reload functionalities using docker because it's mounting your project directory into the container.
+
+> The project image also installs PostgreSQL client, so if you need you can attach to the container and use psql there.
 
 ### Running without Docker
 
@@ -62,34 +77,13 @@ With the database created, create the seed data with
 mix run priv/repo/seeds.exs
 ```
 
-This should leave you with a properly configured development environment.
-
-
-### Running with Docker
-
-Install Docker via the [official installation guide](https://docs.docker.com/install/)
-Install Docker Compose also via the [official installation guide](https://docs.docker.com/compose/install/)
-
-After that, it should be as simple as running the following command
+This should leave you with a properly configured development environment. After that, run the following command
 
 ```sh
-docker-compose up
+iex -S mix phx.server
 ```
-
-You will still retain live reload functionalities using docker because it's mounting your project directory into the container.
-
-> The project image also installs PostgreSQL client, so if you need you can attach to the container and use psql there.
 
 ## Running Tests
-
-### Running tests without Docker
-
-First change the db hostname at `config/test.exs`, as it assumes the Docker environment is being used.
-
-To run the test suite, run the following command:
-```sh
-mix test
-```
 
 ### Running tests with Docker
 
@@ -101,6 +95,15 @@ docker-compose up db
 Then run the following command to run the test suite:
 ```sh
 docker-compose run web mix test
+```
+
+### Running tests without Docker
+
+First change the db hostname at `config/test.exs`, as it assumes the Docker environment is being used.
+
+To run the test suite, run the following command:
+```sh
+mix test
 ```
 
 ### Testing manually
