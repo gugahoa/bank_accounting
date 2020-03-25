@@ -93,21 +93,18 @@ The first reason for separating them is to use the same vocabulary from the doma
 The second reason is that in the future, Personal Account and Nominal Account could be quite different. With Nominal Account having more internal information, and Personal Account having more information about fees and customer information.
 We talk about personal account fees, other kinds of personal account and revenue in the [Road to the Future](#road-to-the-future) section.
 
-### No balance column
+### Balance as a derived column
 
-A balance column can lead to inconsistencies, as it's a fact that is derived from the transactions table. Adding it would mean that we have to program a routine to keep it in sync with the source of truth (Transactions table).
-A better approach, discussed in [Road to the Future](#road-to-the-future) is to create a Personal Account Closed Balance table (same applies for Nominal Accounts) and only update it on every defined time window that makes sense.
-Then the number of rows needed to calculate the balance would be 1 + all transactions from that account on the open period.
+Balance is a derived column inside Personal Accounts (called `derived_balance`), and is updated by a trigger.
+There's some pros and cons about this approach.
+
+Cons is that the logic about what increases or decreases the value in the balance lives inside a PostgreSQL function.
+That column also should never be updated by a developer, only by the trigger.
+
+Pros is that the data integrity is guaranteed by the database.
+This frees us from having to deal with a transaction, choosing isolation level, and worrying about if we're doing dirty reads, uncommitted reads and so on.
 
 ## Road to the Future
-
-### Improve balance calculation
-
-With the current model, to calculate the balance of an account, you have to sum all the transactions ever from that account.
-That's a clear target for optimization in the future.
-To improve that, we could create two new tables: Personal Account Closed Balance and Nominal Account Closed Balance.
-
-Those tables would only have a foreign key to the account, a balance column and optionally other information that may be relevant (such as total credit, or total debit).
 
 ### Add new Personal Account Types
 
