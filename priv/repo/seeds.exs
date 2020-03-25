@@ -13,6 +13,9 @@
 alias BankAccounting.Ledger
 
 Ledger.create_nominal_account(%{
-  "id" => 100,
-  "description" => "Bank Cash Asset"
+  id: 100,
+  description: "Bank Cash Asset"
 })
+
+Ledger.create_transaction_type(%{name: "debit"})
+Ledger.create_transaction_type(%{name: "credit"})

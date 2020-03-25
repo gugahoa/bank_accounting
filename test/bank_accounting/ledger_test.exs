@@ -6,7 +6,7 @@ defmodule BankAccounting.LedgerTest do
   describe "nominal_accounts" do
     alias BankAccounting.Ledger.NominalAccount
 
-    @valid_attrs %{description: "some description"}
+    @valid_attrs %{id: 100, description: "some description"}
     @update_attrs %{description: "some updated description"}
     @invalid_attrs %{description: nil}
 

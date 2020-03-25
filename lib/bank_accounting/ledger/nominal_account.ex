@@ -11,7 +11,7 @@ defmodule BankAccounting.Ledger.NominalAccount do
   @doc false
   def changeset(nominal_account, attrs) do
     nominal_account
-    |> cast(attrs, [:description])
-    |> validate_required([:description])
+    |> cast(attrs, [:id, :description])
+    |> validate_required([:id, :description])
   end
 end
