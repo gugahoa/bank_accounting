@@ -1,4 +1,4 @@
-defmodule BankAccounting.AuthControllerTest do
+defmodule BankAccountingWeb.AuthControllerTest do
   use BankAccountingWeb.ConnCase
 
   describe "login/2" do
