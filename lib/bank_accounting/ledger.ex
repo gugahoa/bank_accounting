@@ -379,6 +379,7 @@ defmodule BankAccounting.Ledger do
     if Decimal.negative?(amount) do
       {:error, :negative_amount_not_allowed}
     else
+      # We don't need to handle the case of negative balance after a insertion, as it's a database constraint
       bank_asset = get_nominal_account!(100)
       multi = Ecto.Multi.new()
               |> Ecto.Multi.insert(:from_transaction, Transaction.changeset(%Transaction{}, %{
