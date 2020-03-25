@@ -4,6 +4,7 @@ defmodule BankAccounting.Ledger.PersonalAccount do
 
   schema "personal_accounts" do
     belongs_to :user, BankAccounting.Auth.User
+    field :derived_balance, :decimal, default: 0
 
     timestamps()
   end
