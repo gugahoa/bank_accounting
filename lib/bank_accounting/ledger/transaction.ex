@@ -22,5 +22,6 @@ defmodule BankAccounting.Ledger.Transaction do
     transaction
     |> cast(attrs, [:value, :personal_account_id, :nominal_account_id, :type])
     |> validate_required([:value, :personal_account_id, :nominal_account_id, :type])
+    |> check_constraint(:value, name: :derived_balance_must_be_positive, message: "is bigger than what is available for the personal account")
   end
 end

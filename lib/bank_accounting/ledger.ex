@@ -350,4 +350,63 @@ defmodule BankAccounting.Ledger do
   def balance(%PersonalAccount{} = personal_account) do
     Repo.get(PersonalAccount, personal_account.id).derived_balance
   end
+
+  @doc """
+  Transfer money between two Personal Accounts. The balance must never go below zero during this transfer.
+  May raise Decimal.Error if amount is not a valid Decimal.
+
+  ## Examples
+
+    iex> transfer(personal_account1, personal_account2, amount)
+    {:ok, %{from_transaction: %Transaction{}, to_transaction: %Transaction{}}} 
+
+    iex> transfer(personal_account1, personal_account2, amount)
+    {:error, :from_transaction, %Ecto.Changeset{}, %{} = changes_so_far}
+
+    iex> transfer(personal_account1, personal_account2, amount)
+    {:error, :to_transaction, %Ecto.Changeset{}, %{} = changes_so_far}
+
+    iex> transfer(personal_account1, personal_account2, amount)
+    {:error, :no_negative_amount}
+
+  """
+  def transfer(%PersonalAccount{} = from, %PersonalAccount{} = to, %Decimal{} = amount) do
+    if Decimal.negative?(amount) do
+      {:error, :negative_amount_not_allowed}
+    else
+      bank_asset = get_nominal_account!(100)
+      multi = Ecto.Multi.new()
+              |> Ecto.Multi.insert(:from_transaction, Transaction.changeset(%Transaction{}, %{
+                 "value" => amount,
+                 "personal_account_id" => from.id,
+                 "nominal_account_id" => bank_asset.id,
+                 "type" => "credit"
+              }))
+              |> Ecto.Multi.insert(:to_transaction, Transaction.changeset(%Transaction{}, %{
+                 "value" => amount,
+                 "personal_account_id" => to.id,
+                 "nominal_account_id" => bank_asset.id,
+                 "type" => "debit"
+              }))
+
+      Repo.transaction(multi)
+    end
+  end
+
+  def transfer(
+        %PersonalAccount{} = personal_account1,
+        %PersonalAccount{} = personal_account2,
+        amount
+      )
+      when is_float(amount) do
+    transfer(personal_account1, personal_account2, Decimal.from_float(amount))
+  end
+
+  def transfer(
+        %PersonalAccount{} = personal_account1,
+        %PersonalAccount{} = personal_account2,
+        amount
+      ) do
+    transfer(personal_account1, personal_account2, Decimal.new(amount))
+  end
 end

@@ -220,5 +220,58 @@ defmodule BankAccounting.LedgerTest do
       insert(:deposit, %{ value: 50, personal_account: personal_account })
       assert Decimal.eq?(Ledger.balance(personal_account), Decimal.new(50))
     end
+
+    test "transfer/3 should transfer money from one account to another" do
+      insert(:debit_type)
+      from = insert(:personal_account)
+      assert Decimal.eq?(Ledger.balance(from), Decimal.new(0))
+
+      insert(:deposit, %{value: 50, personal_account: from})
+      assert Decimal.eq?(Ledger.balance(from), Decimal.new(50))
+
+      insert(:credit_type)
+      to = insert(:personal_account)
+      assert {:ok, %{}} = Ledger.transfer(from, to, 50)
+      assert Decimal.eq?(Ledger.balance(from), Decimal.new(0))
+      assert Decimal.eq?(Ledger.balance(to), Decimal.new(50))
+    end
+
+    test "transfer/3 from an account without funds should return an error" do
+      insert(:debit_type)
+      insert(:nominal_account)
+      from = insert(:personal_account)
+      assert Decimal.eq?(Ledger.balance(from), Decimal.new(0))
+
+      insert(:credit_type)
+      to = insert(:personal_account)
+      assert {:error, :from_transaction, %Ecto.Changeset{}, _changes_so_far} = Ledger.transfer(from, to, 50)
+      assert Decimal.eq?(Ledger.balance(from), Decimal.new(0))
+      assert Decimal.eq?(Ledger.balance(to), Decimal.new(0))
+    end
+
+    test "transfer/3 with a negative amount as argument should not be possible" do
+      from = insert(:personal_account)
+      to = insert(:personal_account)
+      assert {:error, :negative_amount_not_allowed} = Ledger.transfer(from, to, -5)
+    end
+
+    test "transfer/3 should allow float and string as amount argument" do
+      insert(:debit_type)
+      from = insert(:personal_account)
+      assert Decimal.eq?(Ledger.balance(from), Decimal.new(0))
+
+      insert(:deposit, %{value: 50, personal_account: from})
+      assert Decimal.eq?(Ledger.balance(from), Decimal.new(50))
+
+      insert(:credit_type)
+      to = insert(:personal_account)
+      assert {:ok, %{}} = Ledger.transfer(from, to, 10.0)
+      assert Decimal.eq?(Ledger.balance(from), Decimal.new(40))
+      assert Decimal.eq?(Ledger.balance(to), Decimal.new(10))
+
+      assert {:ok, %{}} = Ledger.transfer(from, to, "40.0")
+      assert Decimal.eq?(Ledger.balance(from), Decimal.new(0))
+      assert Decimal.eq?(Ledger.balance(to), Decimal.new(50))
+    end
   end
 end
