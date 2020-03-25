@@ -1,10 +1,10 @@
 defmodule BankAccountingWeb.LedgerView do
   use BankAccountingWeb, :view
 
-  def render("transfer.json", %{from: from, to: to}) do
+  def render("transfer.json", %{from: from}) do
     %{
+      success: true,
       from: render_one(from, BankAccountingWeb.LedgerView, "balance.json", as: :personal_account),
-      to: render_one(to, BankAccountingWeb.LedgerView, "balance.json", as: :personal_account)
     }
   end
 

@@ -18,8 +18,7 @@ defmodule BankAccountingWeb.LedgerController do
         conn
         |> put_status(:ok)
         |> render("transfer.json",
-          from: Ledger.get_personal_account!(from.id),
-          to: Ledger.get_personal_account!(to.id)
+          from: Ledger.get_personal_account!(from.id)
         )
       else
         {:error, _, %Ecto.Changeset{} = changeset, _} ->

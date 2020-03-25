@@ -26,11 +26,10 @@ defmodule BankAccountingWeb.LedgerControllerTest do
         |> json_response(:ok)
 
       personal_account_id = personal_account.id
-      another_personal_account_id = another_personal_account.id
 
       assert %{
                "from" => %{"balance" => "450", "id" => ^personal_account_id},
-               "to" => %{"balance" => "50", "id" => ^another_personal_account_id}
+               "success" => true
              } = response
 
       assert Decimal.eq?(Ledger.balance(another_personal_account), Decimal.new(50))
