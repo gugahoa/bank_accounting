@@ -14,13 +14,15 @@ defmodule BankAccountingWeb.AuthController do
       _ ->
         conn
         |> put_status(:bad_request)
-        |> json(%{"error" => "invalid email/password combination"})
+        |> put_view(BankAccountingWeb.ErrorView)
+        |> render("error.json", message: "invalid email/password combination")
     end
   end
 
   def login(conn, _params) do
     conn
     |> put_status(:bad_request)
-    |> json(%{"error" => "missing required fields"})
+    |> put_view(BankAccountingWeb.ErrorView)
+    |> render("error.json", message: "missing required fields")
   end
 end
