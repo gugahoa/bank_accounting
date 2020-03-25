@@ -189,7 +189,7 @@ defmodule BankAccounting.LedgerTest do
       insert(:nominal_account)
       insert(:debit_type)
 
-      assert {:error, :invalid_amount} = Ledger.deposit(personal_account, "-100.0")
+      assert {:error, :negative_amount_not_allowed} = Ledger.deposit(personal_account, "-100.0")
     end
 
     test "deposit/2 with invalid value should not create a transaction" do

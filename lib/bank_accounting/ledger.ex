@@ -313,12 +313,13 @@ defmodule BankAccounting.Ledger do
     {:ok, %Transaction{}}
 
     iex> deposit(personal_account, invalid_amount)
-    {:error, :invalid_amount}
+    {:error, :negative_amount_not_allowed}
   """
   def deposit(%PersonalAccount{} = personal_account, %Decimal{} = amount) do
     bank_asset = get_nominal_account!(100)
+
     if Decimal.negative?(amount) do
-      {:error, :invalid_amount}
+      {:error, :negative_amount_not_allowed}
     else
       # We're only creating one transaction for a deposit, instead of two, that would normaly go in a traditional ledger.
       # That's because we already have the two accounts affected by the transaction, so we can infer that a debit on Nominal Account is a credit on Personal Account.
