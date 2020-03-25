@@ -80,19 +80,9 @@ The model and project are assuming that all Personal Accounts are liabilities, a
 If we [add a new Personal Account Type](#adding-a-new-personal-account-type) and [add a new Nominal Account Type](#adding-a-new-nominal-account-type), it would be possible to make the transfer between accounts go through a liability Nominal Account instead of an asset one.
 
 
-### string vs int vs float to represent a transaction value
+### How to represent a transaction value
 
-The criteria to choose which representation to use for transaction value were:
-
-- Easy to do arithmetic operations
-- Has a straightforward way to handle precision
-- Won't require many changes to the backend if precision is later increased
-
-All three types satisfy the first criteria if we handle string with the Decimal library.
-
-Only int and string have a straightforward way to handle precision.
-
-The representation that requires the least change to the backend if we increase the precision is string, requiring only a change to the Decimal library context.
+PostgreSQL has a [numeric data type](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL) that is recommended when dealing with monetary value.
 
 ### Nominal Account and Personal Account
 
