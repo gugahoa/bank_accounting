@@ -200,7 +200,7 @@ defmodule BankAccounting.LedgerTest do
       assert_raise Decimal.Error, fn -> Ledger.deposit(personal_account, "somestring") end
     end
 
-    test "deposit/2 should convert number to string before creation" do
+    test "deposit/2 should allow float and integer as amount argument" do
       personal_account = insert(:personal_account)
       insert(:nominal_account)
       insert(:debit_type)
