@@ -43,7 +43,8 @@ defmodule BankAccounting.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:bcrypt_elixir, "~> 2.2"},
       {:ex_machina, "~> 2.4", only: :test},
-      {:decimal, "~> 1.8"}
+      {:decimal, "~> 1.8"},
+      {:guardian, "~> 2.0"}
     ]
   end
 
