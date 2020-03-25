@@ -115,4 +115,41 @@ defmodule BankAccounting.Auth do
   def change_user(%User{} = user) do
     User.changeset(user, %{})
   end
+
+  alias BankAccounting.Ledger
+  alias Ecto.Multi
+
+  @doc """
+  Returns a user and personal account with the specified initial deposit
+
+  ## Examples
+
+      iex> signup(params)
+      {:ok, %{ user: %User{}, personal_account: %PersonalAccount{}}}
+
+      iex> signup(params)
+      {:error, :user, %Ecto.Changeset{}, %{}}
+
+      iex> signup(params)
+      {:error, :personal_account, %Ecto.Changeset{}, %{}}
+  """
+  def signup(params) do
+    multi =
+      Multi.new()
+      |> Multi.insert(:user, User.changeset(%User{}, params))
+      |> Multi.run(:personal_account, fn _repo, %{user: user} ->
+        with {:ok, personal_account} = ret <- Ledger.create_personal_account(%{user_id: user.id}) do
+          initial_deposit =
+            Map.get(params, "initial_deposit") || Map.get(params, :initial_deposit)
+
+          if initial_deposit != nil and initial_deposit > 0 do
+            Ledger.deposit(personal_account, initial_deposit)
+          end
+
+          ret
+        end
+      end)
+
+    Repo.transaction(multi)
+  end
 end

@@ -64,5 +64,39 @@ defmodule BankAccounting.AuthTest do
       user = user_fixture()
       assert %Ecto.Changeset{} = Auth.change_user(user)
     end
+
+    test "signup/1 returns a user and a personal account" do
+      insert(:nominal_account)
+      insert(:debit_type)
+      assert {:ok, %{user: user, personal_account: personal_account}} = Auth.signup(@valid_attrs)
+      assert personal_account.user_id == user.id
+      assert Decimal.eq?(BankAccounting.Ledger.balance(personal_account), Decimal.new(0))
+    end
+
+    test "signup/1 returns a user and a personal account with a initial deposit" do
+      insert(:nominal_account)
+      insert(:debit_type)
+
+      assert {:ok, %{user: user, personal_account: personal_account}} =
+               Auth.signup(Map.merge(@valid_attrs, %{initial_deposit: 100}))
+
+      assert personal_account.user_id == user.id
+      assert Decimal.eq?(BankAccounting.Ledger.balance(personal_account), Decimal.new(100))
+    end
+
+    test "signup/1 with negative initial deposit returns a user and personal account with balance 0" do
+      insert(:nominal_account)
+      insert(:debit_type)
+
+      assert {:ok, %{user: user, personal_account: personal_account}} =
+               Auth.signup(Map.merge(@valid_attrs, %{initial_deposit: -100}))
+
+      assert personal_account.user_id == user.id
+      assert Decimal.eq?(BankAccounting.Ledger.balance(personal_account), Decimal.new(0))
+    end
+
+    test "signup/1 with invalid input returns an error" do
+      assert {:error, :user, %Ecto.Changeset{}, _} = Auth.signup(@invalid_attrs)
+    end
   end
 end
