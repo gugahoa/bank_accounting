@@ -14,7 +14,6 @@ When contributing to this project, first read the [Design Decisions](#design-dec
     * [Why is user information separated from Personal Account?](#why-is-user-information-separated-from-personal-account)
   * [Trade-offs](#trade-offs)
     * [Why does transfers go through an Asset Nominal Account, instead of a Liability?](why-does-transfers-go-through-an-asset-nominal-account-instead-of-a-liability)
-    * [string vs int vs float to represent a transaction value](#string-vs-int-vs-float-to-represent-a-transaction-value)
     * [Nominal Account and Personal Account](#nominal-account-and-personal-account)
     * [No balance column](#no-balance-column)
   * [Road to the Future](#road-to-the-future)
