@@ -3,16 +3,15 @@ defmodule BankAccountingWeb.LedgerController do
 
   alias BankAccounting.Ledger
 
+  action_fallback BankAccountingWeb.FallbackController
+
   def transfer(conn, %{"from" => from, "to" => to, "amount" => amount}) do
     user = Guardian.Plug.current_resource(conn)
     from = Ledger.get_personal_account!(from)
     to = Ledger.get_personal_account!(to)
 
     if user.id != from.user_id do
-      conn
-      |> put_status(:forbidden)
-      |> put_view(BankAccountingWeb.ErrorView)
-      |> render("error.json", message: "you're not authorized to perform this operation")
+      {:error, :forbidden}
     else
       with {:ok, _} <- Ledger.transfer(from, to, amount) do
         conn
@@ -35,10 +34,7 @@ defmodule BankAccountingWeb.LedgerController do
     personal_account = Ledger.get_personal_account!(account_id)
 
     if user.id != personal_account.user_id do
-      conn
-      |> put_status(:forbidden)
-      |> put_view(BankAccountingWeb.ErrorView)
-      |> render("error.json", message: "you're not authorized to perform this operation")
+      {:error, :forbidden}
     else
       conn
       |> put_status(:ok)

@@ -3,6 +3,8 @@ defmodule BankAccountingWeb.AuthController do
 
   alias BankAccounting.{Auth, Ledger}
 
+  action_fallback BankAccountingWeb.FallbackController
+
   def login(conn, %{"email" => email, "password" => password}) do
     with user <- Auth.get_user_by(email: email),
          {:ok, _user} <- Bcrypt.check_pass(user, password),
@@ -12,18 +14,12 @@ defmodule BankAccountingWeb.AuthController do
       |> render("login.json", access_token: token)
     else
       _ ->
-        conn
-        |> put_status(:bad_request)
-        |> put_view(BankAccountingWeb.ErrorView)
-        |> render("error.json", message: "invalid email/password combination")
+        {:error, :invalid_credentials}
     end
   end
 
-  def login(conn, _params) do
-    conn
-    |> put_status(:bad_request)
-    |> put_view(BankAccountingWeb.ErrorView)
-    |> render("error.json", message: "missing required fields")
+  def login(_conn, _params) do
+    {:error, :missing_required_fields}
   end
 
   def signup(conn, params) do
@@ -34,12 +30,6 @@ defmodule BankAccountingWeb.AuthController do
         user: user,
         personal_account: Ledger.get_personal_account!(personal_account.id)
       )
-    else
-      {:error, _, %Ecto.Changeset{} = changeset, _} ->
-        conn
-        |> put_status(:bad_request)
-        |> put_view(BankAccountingWeb.ErrorView)
-        |> render("changeset.json", changeset: changeset)
     end
   end
 end
