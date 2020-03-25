@@ -38,6 +38,20 @@ defmodule BankAccounting.Auth do
   def get_user!(id), do: Repo.get!(User, id)
 
   @doc """
+  Gets a single user by parameter.
+
+  ## Examples
+
+      iex> get_user_by!(email: email)
+      %User{}
+
+      iex> get_user_by!(email: email)
+      nil
+
+  """
+  def get_user_by(opts), do: Repo.get_by(User, opts)
+
+  @doc """
   Creates a user.
 
   ## Examples

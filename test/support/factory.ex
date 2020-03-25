@@ -12,8 +12,6 @@ defmodule BankAccounting.Factory do
     user
     |> BankAccounting.Auth.User.changeset(%{"password" => password})
     |> Ecto.Changeset.apply_changes()
-
-    user
   end
 
   def personal_account_factory do

@@ -23,6 +23,8 @@ defmodule BankAccountingWeb.ConnCase do
       use Phoenix.ConnTest
       alias BankAccountingWeb.Router.Helpers, as: Routes
 
+      import BankAccounting.Factory
+
       # The default endpoint for testing
       @endpoint BankAccountingWeb.Endpoint
     end
