@@ -315,24 +315,20 @@ defmodule BankAccounting.Ledger do
     {:ok, %Transaction{}}
 
     iex> deposit(personal_account, invalid_amount)
-    {:error, :negative_amount_not_allowed}
+    {:error, %Ecto.Changeset{}}
   """
   def deposit(%PersonalAccount{} = personal_account, %Decimal{} = amount) do
     bank_asset = get_nominal_account!(100)
 
-    if Decimal.negative?(amount) do
-      {:error, :negative_amount_not_allowed}
-    else
-      # We're only creating one transaction for a deposit, instead of two, that would normaly go in a traditional ledger.
-      # That's because we already have the two accounts affected by the transaction, so we can infer that a debit on Nominal Account is a credit on Personal Account.
-      # This will reduce by half the size of the transactions table
-      create_transaction(%{
-        "value" => amount,
-        "personal_account_id" => personal_account.id,
-        "nominal_account_id" => bank_asset.id,
-        "type" => "debit"
-      })
-    end
+    # We're only creating one transaction for a deposit, instead of two, that would normaly go in a traditional ledger.
+    # That's because we already have the two accounts affected by the transaction, so we can infer that a debit on Nominal Account is a credit on Personal Account.
+    # This will reduce by half the size of the transactions table
+    create_transaction(%{
+      "value" => amount,
+      "personal_account_id" => personal_account.id,
+      "nominal_account_id" => bank_asset.id,
+      "type" => "debit"
+    })
   end
   def deposit(%PersonalAccount{} = personal_account, amount) when is_float(amount) do
     deposit(personal_account, Decimal.from_float(amount))
@@ -371,32 +367,25 @@ defmodule BankAccounting.Ledger do
     iex> transfer(personal_account1, personal_account2, amount)
     {:error, :to_transaction, %Ecto.Changeset{}, %{} = changes_so_far}
 
-    iex> transfer(personal_account1, personal_account2, amount)
-    {:error, :no_negative_amount}
-
   """
   def transfer(%PersonalAccount{} = from, %PersonalAccount{} = to, %Decimal{} = amount) do
-    if Decimal.negative?(amount) do
-      {:error, :negative_amount_not_allowed}
-    else
-      # We don't need to handle the case of negative balance after a insertion, as it's a database constraint
-      bank_asset = get_nominal_account!(100)
-      multi = Ecto.Multi.new()
-              |> Ecto.Multi.insert(:from_transaction, Transaction.changeset(%Transaction{}, %{
-                 "value" => amount,
-                 "personal_account_id" => from.id,
-                 "nominal_account_id" => bank_asset.id,
-                 "type" => "credit"
-              }))
-              |> Ecto.Multi.insert(:to_transaction, Transaction.changeset(%Transaction{}, %{
-                 "value" => amount,
-                 "personal_account_id" => to.id,
-                 "nominal_account_id" => bank_asset.id,
-                 "type" => "debit"
-              }))
+    # We don't need to handle the case of negative balance after a insertion, as it's a database constraint
+    bank_asset = get_nominal_account!(100)
+    multi = Ecto.Multi.new()
+            |> Ecto.Multi.insert(:from_transaction, Transaction.changeset(%Transaction{}, %{
+               "value" => amount,
+               "personal_account_id" => from.id,
+               "nominal_account_id" => bank_asset.id,
+               "type" => "credit"
+            }))
+            |> Ecto.Multi.insert(:to_transaction, Transaction.changeset(%Transaction{}, %{
+               "value" => amount,
+               "personal_account_id" => to.id,
+               "nominal_account_id" => bank_asset.id,
+               "type" => "debit"
+            }))
 
-      Repo.transaction(multi)
-    end
+    Repo.transaction(multi)
   end
 
   def transfer(

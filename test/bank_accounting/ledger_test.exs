@@ -189,7 +189,7 @@ defmodule BankAccounting.LedgerTest do
       insert(:nominal_account)
       insert(:debit_type)
 
-      assert {:error, :negative_amount_not_allowed} = Ledger.deposit(personal_account, "-100.0")
+      assert {:error, %Ecto.Changeset{}} = Ledger.deposit(personal_account, "-100.0")
     end
 
     test "deposit/2 with invalid value should not create a transaction" do
@@ -250,9 +250,10 @@ defmodule BankAccounting.LedgerTest do
     end
 
     test "transfer/3 with a negative amount as argument should not be possible" do
+      insert(:nominal_account)
       from = insert(:personal_account)
       to = insert(:personal_account)
-      assert {:error, :negative_amount_not_allowed} = Ledger.transfer(from, to, -5)
+      assert {:error, :from_transaction, %Ecto.Changeset{}, _} = Ledger.transfer(from, to, -5)
     end
 
     test "transfer/3 should allow float and string as amount argument" do
