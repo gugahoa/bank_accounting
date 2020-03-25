@@ -15,6 +15,19 @@ defmodule BankAccountingWeb.ErrorView do
   end
 
   def render("error.json", %{message: message}) do
-    %{ error: message }
+    %{error: message}
+  end
+
+  def render("changeset.json", %{changeset: changeset}) do
+    changeset_errors =
+      Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
+        Enum.reduce(opts, msg, fn {key, value}, acc ->
+          String.replace(acc, "%{#{key}}", to_string(value))
+        end)
+      end)
+
+    %{
+      error: changeset_errors
+    }
   end
 end
