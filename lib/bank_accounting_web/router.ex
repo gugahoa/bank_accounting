@@ -5,8 +5,10 @@ defmodule BankAccountingWeb.Router do
     plug :accepts, ["json"]
   end
 
-  pipeline :protected do 
-    plug Guardian.Plug.Pipeline, module: BankAccounting.Guardian
+  pipeline :protected do
+    plug Guardian.Plug.Pipeline,
+      module: BankAccounting.Guardian,
+      error_handler: BankAccounting.GuardianErrorHandler
 
     plug Guardian.Plug.VerifyHeader
     plug Guardian.Plug.EnsureAuthenticated
