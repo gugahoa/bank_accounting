@@ -307,6 +307,8 @@ defmodule BankAccounting.Ledger do
   A Nominal Account with id 100 must exist for a deposit to occur.
   For relevant data that must exist, see the seed.exs file.
 
+  May raise Decimal.Error if amount is not a valid Decimal.
+
   ## Examples
 
     iex> deposit(personal_account, amount)
