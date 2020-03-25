@@ -3,14 +3,15 @@ defmodule BankAccountingWeb.LedgerView do
 
   def render("transfer.json", %{from: from, to: to}) do
     %{
-      from: %{
-        id: from.id,
-        balance: from.derived_balance
-      },
-      to: %{
-        id: to.id,
-        balance: to.derived_balance
-      }
+      from: render_one(from, BankAccountingWeb.LedgerView, "balance.json", as: :personal_account),
+      to: render_one(to, BankAccountingWeb.LedgerView, "balance.json", as: :personal_account)
+    }
+  end
+
+  def render("balance.json", %{personal_account: personal_account}) do
+    %{
+      id: personal_account.id,
+      balance: personal_account.derived_balance
     }
   end
 end
