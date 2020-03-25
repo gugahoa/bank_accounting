@@ -9,6 +9,7 @@ RUN apt-get install -y postgresql-client && \
 WORKDIR /opt/bank_accounting_dev
 
 COPY mix.exs /opt/bank_accounting_dev
+COPY mix.lock /opt/bank_accounting_dev
 
 RUN mix deps.get && mix compile
 
